@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    jammit-s3 (0.5.3)
-      jammit (= 0.5.3)
-      mimemagic (>= 0.1.5)
+    jammit-s3 (0.5.3.0)
+      jammit (>= 0.5.3)
+      mimemagic (>= 0.1.7)
       s3 (>= 0.3.4)
 
 GEM
@@ -16,7 +16,7 @@ GEM
       closure-compiler (>= 0.1.0)
       yui-compressor (>= 0.9.1)
     linecache (0.43)
-    mimemagic (0.1.5)
+    mimemagic (0.1.7)
     proxies (0.2.1)
     rspec (2.0.0.beta.22)
       rspec-core (= 2.0.0.beta.22)
@@ -41,9 +41,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  jammit (= 0.5.3)
+  jammit (>= 0.5.3)
   jammit-s3!
-  mimemagic (>= 0.1.5)
+  mimemagic (>= 0.1.7)
   rspec (>= 2.0.0.beta)
   ruby-debug
   s3 (>= 0.3.4)
