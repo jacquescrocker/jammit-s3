@@ -18,6 +18,9 @@ If you are using Rails3, add it to your project's `Gemfile`:
     gem 'jammit-s3'
 
 
+Jammit S3 already has a gem dependency for jammit, so I'd recommend removing any existing `gem 'jammit'` references from your Gemfile.
+
+
 ## Configuration
 
 Within your `config/assets.yml`, just add a toplevel key called `s3_bucket` that contains the bucketname you want to use. If jammit-s3 doesn't find the bucket, it will try to create it. Bucketnames need to be globally unique. Learn more about bucketnames [here](http://support.rightscale.com/06-FAQs/FAQ_0094_-_What_are_valid_S3_bucket_names%3F)
