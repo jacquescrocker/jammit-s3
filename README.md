@@ -48,10 +48,19 @@ Replace these with your own access keys, found [here](https://aws-portal.amazon.
 
 As you probably don't want to check this data into source control, I'd recommend you just set it to an environment variable on your local box, and use ERB
 
-    s3_access_key_id: <%= ENV['S3_ACCESS_KEY_ID'] %>
-    s3_secret_access_key: <%= ENV['S3_SECRET_ACCESS_KEY'] %>
+    s3_access_key_id: <%= ENV['ACCESS_KEY_ID'] %>
+    s3_secret_access_key: <%= ENV['SECRET_ACCESS_KEY'] %>
 
 You can then set these env variables in your .bash_profile
+
+
+## Folders to upload
+
+By default, jammit-s3 will upload your configured asset directly, along with public/images. However you can customize this using the `s3_upload_files` setting, which should be a list of file globs.
+
+# adds image uploads
+s3_upload_files:
+  - public/css/images/**
 
 
 ## Using Cloudfront
