@@ -1,0 +1,1 @@
+require 'jammit/s3'

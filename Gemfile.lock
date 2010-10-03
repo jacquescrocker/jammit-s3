@@ -4,6 +4,7 @@ PATH
     jammit-s3 (0.5.3)
       jammit (= 0.5.3)
       mimemagic (>= 0.1.5)
+      s3 (>= 0.3.4)
 
 GEM
   remote: http://rubygems.org/
@@ -45,4 +46,4 @@ DEPENDENCIES
   mimemagic (>= 0.1.5)
   rspec (>= 2.0.0.beta)
   ruby-debug
-  s3
+  s3 (>= 0.3.4)
