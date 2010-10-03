@@ -54,8 +54,6 @@ As you probably don't want to check this data into source control, I'd recommend
 You can then set these env variables in your .bash_profile
 
 
-
-
 ## Using Cloudfront
 
 To use cloudfront, just enable it in your config/assets.yml by adding a toplevel key:
@@ -65,13 +63,13 @@ To use cloudfront, just enable it in your config/assets.yml by adding a toplevel
 For this to work you need to make sure you have the cloudfront enabled via you Amazon acccount page. Go here: http://aws.amazon.com/cloudfront/ and click "Sign Up"
 
 
-## Jammit Documentation
-
-For documentation, usage, and examples, see:
-http://documentcloud.github.com/jammit/
+## Bugs / Feature Requests
 
 To suggest a feature or report a bug:
-http://github.com/documentcloud/jammit/issues/
+http://github.com/railsjedi/jammit-s3/issues/
 
-For internal source docs, see:
-http://documentcloud.github.com/jammit/doc/
+
+## Jammit Home Page
+
+Jammit S3 is a simple wrapper around Jammit. To view the original Jammit docs, use http://documentcloud.github.com/jammit/
+

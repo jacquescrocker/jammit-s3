@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.executables       = ['jammit-s3']
 
   s.add_dependency 'jammit',    '0.5.3'
-  s.add_dependency 'mimemagic',  ['>= 0.1.6']
+  s.add_dependency 'mimemagic',  ['>= 0.1.5']
 
-  s.files = Dir['lib/**/*', 'bin/*', 'rails/*', 'jammit-s3.gemspec', 'LICENSE', 'README']
+  s.files = Dir['lib/**/*', 'bin/*', 'jammit-s3.gemspec', 'LICENSE', 'README']
 end
