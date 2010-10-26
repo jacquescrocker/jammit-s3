@@ -77,7 +77,7 @@ module Jammit
         log "Bucket not found. Creating '#{@bucket_name}'..."
         bucket = s3_service.buckets.build(@bucket_name)
 
-        location = (@bucket_location.strip.to_s.downcase == "eu") ? :eu : :us
+        location = (@bucket_location.to_s.strip.downcase == "eu") ? :eu : :us
         bucket.save(location)
       end
       bucket
