@@ -71,7 +71,7 @@ module Jammit
       s3_service = S3::Service.new(:access_key_id => @access_key_id, :secret_access_key => @secret_access_key)
 
       # find or create the bucket
-      bucket = begin
+      begin
         s3_service.buckets.find(@bucket_name)
       rescue S3::Error::NoSuchBucket
         log "Bucket not found. Creating '#{@bucket_name}'..."
@@ -79,8 +79,8 @@ module Jammit
 
         location = (@bucket_location.to_s.strip.downcase == "eu") ? :eu : :us
         bucket.save(location)
+        bucket
       end
-      bucket
     end
 
     def log(msg)
