@@ -62,6 +62,21 @@ By default, jammit-s3 will upload your configured asset directly, along with pub
 s3_upload_files:
   - public/css/images/**
 
+## Setting permissions on uploaded s3 objects
+
+By default, jammit-s3 uses the permission setting found on the s3 bucket. However, you can override this with the config:
+
+    s3_permission: public_read
+
+Valid permission options are:
+
+`private`: Owner gets FULL_CONTROL. No one else has any access rights. This is the default.
+
+`public_read`: Owner gets FULL_CONTROL and the anonymous principal is granted READ access. If this policy is used on an object, it can be read from a browser with no authentication.
+
+`public_read_write`: Owner gets FULL_CONTROL, the anonymous principal is granted READ and WRITE access. This is a useful policy to apply to a bucket, if you intend for any anonymous user to PUT objects into the bucket.
+
+`authenticated_read`: - Owner gets FULL_CONTROL, and any principal authenticated as a registered Amazon S3 user is granted READ access.
 
 ## Using Cloudfront
 
