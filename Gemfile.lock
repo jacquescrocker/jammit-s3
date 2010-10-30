@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    jammit-s3 (0.5.3.1)
+    jammit-s3 (0.5.3.4)
       jammit (>= 0.5.3)
       mimemagic (>= 0.1.7)
-      s3 (>= 0.3.4)
+      s3 (>= 0.3.7)
 
 GEM
   remote: http://rubygems.org/
@@ -34,7 +34,7 @@ GEM
       ruby-debug-base (~> 0.10.3.0)
     ruby-debug-base (0.10.3)
       linecache (>= 0.3)
-    s3 (0.3.4)
+    s3 (0.3.7)
       proxies
     yui-compressor (0.9.1)
 
@@ -48,4 +48,4 @@ DEPENDENCIES
   rake
   rspec (>= 2.0.0.beta)
   ruby-debug
-  s3 (>= 0.3.4)
+  s3 (>= 0.3.7)
