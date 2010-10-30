@@ -9,13 +9,13 @@ module Jammit
         @access_key_id = options[:access_key_id] || Jammit.configuration[:s3_access_key_id]
         @secret_access_key = options[:secret_access_key] || Jammit.configuration[:s3_secret_access_key]
         @bucket_location = options[:bucket_location] || Jammit.configuration[:s3_bucket_location]
-
+        @cache_control = options[:cache_control] || Jammit.configuration[:s3_cache_control]
+        
         @bucket = find_or_create_bucket
       end
     end
 
     def upload
-
       log "Pushing assets to S3 bucket: #{@bucket.name}"
       globs = []
 
@@ -60,6 +60,7 @@ module Jammit
 
         # save to s3
         new_object = @bucket.objects.build(remote_path)
+        new_object.cache_control = @cache_control if @cache_control
         new_object.content_type = MimeMagic.by_path(remote_path)
         new_object.content = open(local_path)
         new_object.content_encoding = "gzip" if use_gzip
