@@ -39,7 +39,7 @@ If using it in the context of your Rails3 app, I'd recommend using `bundle exec`
 
 ## Saving Authentication Info
 
-Every time you run jammit-s3 it will ask you for your Amazon credentials. To avoid this, you can set them in your `config/assets.yml`
+Set your authenticaton information within `config/assets.yml`
 
     s3_access_key_id: 03HDMNF59CWZ2J24T702
     s3_secret_access_key: 1TzRlDmuH8DoOlJ2tlwW8qx+i+Pfe0jzIouWI2BL
