@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name      = 'jammit-s3'
-  s.version   = '0.5.3.6'
+  s.version   = '0.5.4.0'
 
   s.homepage    = "http://documentcloud.github.com/jammit/"
   s.summary     = "Asset Packaging for Rails with Deployment to S3/Cloudfront"
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.require_paths     = ['lib']
   s.executables       = ['jammit-s3']
 
-  s.add_dependency 'jammit',    '>= 0.5.3'
+  s.add_dependency 'jammit',    '>= 0.5.4'
   s.add_dependency 'mimemagic',  '>= 0.1.7'
   s.add_dependency 's3', ">= 0.3.7"
 
