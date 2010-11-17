@@ -80,11 +80,14 @@ Valid permission options are:
 
 ## Using Cloudfront
 
-To use cloudfront, just enable it in your config/assets.yml by adding a toplevel key:
+To use cloudfront, enable it in your config/assets.yml and set the correct CloudFront domain name:
 
     use_cloudfront: true
+    cloudfront_domain: di8snu3y5lwja.cloudfront.net
 
-For this to work you need to make sure you have the cloudfront enabled via you Amazon acccount page. Go here: http://aws.amazon.com/cloudfront/ and click "Sign Up"
+This will use the CloudFront domainname for your assets instead of serving them from the (slow) S3 bucket.
+
+For this to work you need to make sure you have the CloudFront enabled via you Amazon acccount page. Go here: http://aws.amazon.com/cloudfront/ and click "Sign Up"
 
 
 ## Bugs / Feature Requests
