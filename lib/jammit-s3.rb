@@ -13,9 +13,14 @@ if defined?(Rails)
     class JammitRailtie < Rails::Railtie
       initializer "set asset host and asset id" do
         config.after_initialize do
-          s3_bucket = Jammit.configuration[:s3_bucket]
-          if Jammit.package_assets and s3_bucket.present?
-            ActionController::Base.asset_host = "http://#{Jammit.configuration[:s3_bucket]}.s3.amazonaws.com"
+          if Jammit.configuration[:use_cloudfront] && Jammit.configuration[:cloudfront_domain].present?
+            asset_hostname = "http://#{Jammit.configuration[:cloudfront_domain]}" 
+          else
+            asset_hostname = "http://#{Jammit.configuration[:s3_bucket]}.s3.amazonaws.com"
+          end
+
+          if Jammit.package_assets and asset_hostname.present?
+            ActionController::Base.asset_host = asset_hostname
           end
         end
       end
