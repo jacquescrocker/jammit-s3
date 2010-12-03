@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name      = 'jammit-s3'
-  s.version   = '0.5.4.2'
+  s.version   = '0.5.4.3'
 
   s.homepage    = "http://documentcloud.github.com/jammit/"
   s.summary     = "Asset Packaging for Rails with Deployment to S3/Cloudfront"
