@@ -58,9 +58,9 @@ You can then set these env variables in your .bash_profile
 
 By default, jammit-s3 will upload your configured asset directly, along with public/images. However you can customize this using the `s3_upload_files` setting, which should be a list of file globs.
 
-# adds image uploads
-s3_upload_files:
-  - public/css/images/**
+    # adds image uploads
+    s3_upload_files:
+      - public/css/images/**
 
 ## Setting permissions on uploaded s3 objects
 
