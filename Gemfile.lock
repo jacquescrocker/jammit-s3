@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jammit-s3 (0.5.4.1)
+    jammit-s3 (0.5.4.2)
       jammit (>= 0.5.4)
       mimemagic (>= 0.1.7)
       s3 (>= 0.3.7)
