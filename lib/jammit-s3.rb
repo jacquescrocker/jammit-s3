@@ -13,15 +13,16 @@ if defined?(Rails)
     class JammitRailtie < Rails::Railtie
       initializer "set asset host and asset id" do
         config.after_initialize do
-          protocol = Jammit.configuration[:ssl] ? "https" : "http"
           if Jammit.configuration[:use_cloudfront] && Jammit.configuration[:cloudfront_domain].present?
-            asset_hostname = "#{protocol}://#{Jammit.configuration[:cloudfront_domain]}"
+            asset_hostname = Jammit.configuration[:cloudfront_domain]
           else
-            asset_hostname = "#{protocol}://#{Jammit.configuration[:s3_bucket]}.s3.amazonaws.com"
+            asset_hostname = "#{Jammit.configuration[:s3_bucket]}.s3.amazonaws.com"
           end
 
           if Jammit.package_assets and asset_hostname.present?
-            ActionController::Base.asset_host = asset_hostname
+            ActionController::Base.asset_host = Proc.new do |source, request|
+              "#{Jammit.configuration[:ssl] || request.protocol}://#{asset_hostname}"
+            end
           end
         end
       end
