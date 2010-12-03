@@ -21,7 +21,12 @@ if defined?(Rails)
 
           if Jammit.package_assets and asset_hostname.present?
             ActionController::Base.asset_host = Proc.new do |source, request|
-              "#{Jammit.configuration[:ssl] || request.protocol}://#{asset_hostname}"
+              if Jammit.configuration.has_key?(:ssl)
+                protocol = Jammit.configuration[:ssl] ? "https://" : "http://"
+              else
+                protocol = request.protocol
+              end
+              "#{protocol}#{asset_hostname}"
             end
           end
         end
