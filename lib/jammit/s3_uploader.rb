@@ -1,4 +1,5 @@
 require 'mimemagic'
+require 'digest/md5'
 
 module Jammit
   class S3Uploader
@@ -56,17 +57,30 @@ module Jammit
           use_gzip = true
           remote_path = remote_path.gsub(/\.gz$/, "")
         end
+        
+        # check if the file already exists on s3
+        begin
+          obj = @bucket.objects.find_first(remote_path)
+        rescue
+          obj = nil
+        end
 
-        log "pushing file to s3: #{remote_path}"
+        # if the object does not exist, or if the MD5 Hash / etag of the 
+        # file has changed, upload it
+        if !obj || (obj.etag != Digest::MD5.hexdigest(File.read(local_path)))
+          log "pushing file to s3: #{remote_path}"
 
-        # save to s3
-        new_object = @bucket.objects.build(remote_path)
-        new_object.cache_control = @cache_control if @cache_control
-        new_object.content_type = MimeMagic.by_path(remote_path)
-        new_object.content = open(local_path)
-        new_object.content_encoding = "gzip" if use_gzip
-        new_object.acl = @acl if @acl
-        new_object.save
+          # save to s3
+          new_object = @bucket.objects.build(remote_path)
+          new_object.cache_control = @cache_control if @cache_control
+          new_object.content_type = MimeMagic.by_path(remote_path)
+          new_object.content = open(local_path)
+          new_object.content_encoding = "gzip" if use_gzip
+          new_object.acl = @acl if @acl
+          new_object.save
+        else
+          log "file has not changed: #{remote_path}"
+        end     
       end
     end
 
