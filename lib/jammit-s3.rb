@@ -12,8 +12,7 @@ if defined?(Rails)
   module Jammit
     class JammitRailtie < Rails::Railtie
       initializer "set asset host and asset id" do
-        config.after_initialize do
-          puts "Initializing Cloudfront"          
+        config.before_initialize do
           if Jammit.configuration[:use_cloudfront] && Jammit.configuration[:cloudfront_cname].present? && Jammit.configuration[:cloudfront_domain].present?
             asset_hostname = Jammit.configuration[:cloudfront_cname]
             asset_hostname_ssl = Jammit.configuration[:cloudfront_domain]
@@ -24,6 +23,7 @@ if defined?(Rails)
           end
 
           if Jammit.package_assets and asset_hostname.present?
+            puts "Initializing Cloudfront"                      
             ActionController::Base.asset_host = Proc.new do |source, request|
               if Jammit.configuration.has_key?(:ssl)
                 protocol = Jammit.configuration[:ssl] ? "https://" : "http://"
