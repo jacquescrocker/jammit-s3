@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'hmac'
+require 'hmac-sha1'
+require 'net/https'
+require 'base64'
 require 'mimemagic'
 require 'digest/md5'
 
@@ -14,6 +19,10 @@ module Jammit
         @acl = options[:acl] || Jammit.configuration[:s3_permission]
 
         @bucket = find_or_create_bucket
+        if Jammit.configuration[:use_cloudfront]
+          @changed_files = [] 
+          @cloud_dist_id = options[:cloud_dist_id] || Jammit.configuration[:cloud_dist_id]
+        end
       end
     end
 
@@ -68,7 +77,6 @@ module Jammit
         # if the object does not exist, or if the MD5 Hash / etag of the 
         # file has changed, upload it
         if !obj || (obj.etag != Digest::MD5.hexdigest(File.read(local_path)))
-          log "pushing file to s3: #{remote_path}"
 
           # save to s3
           new_object = @bucket.objects.build(remote_path)
@@ -78,9 +86,20 @@ module Jammit
           new_object.content_encoding = "gzip" if use_gzip
           new_object.acl = @acl if @acl
           new_object.save
+          
+          if Jammit.configuration[:use_cloudfront] && obj
+            log "updating the file on s3 and cloudfront: #{remote_path}"
+            @changed_files << remote_path 
+          else
+            log "pushing file to s3: #{remote_path}"
+          end
         else
           log "file has not changed: #{remote_path}"
         end     
+      end
+      if Jammit.configuration[:use_cloudfront] && @changed_files.present? 
+        log "invalidating cloudfront cache for changed files"
+        invalidate_cache(@changed_files)
       end
     end
 
@@ -98,6 +117,29 @@ module Jammit
         bucket.save(location)
         bucket
       end
+    end
+    
+    def invalidate_cache(files)
+      paths = ""
+      files.each do |key|
+        log "adding #{key} to list of invalidation requests"
+        paths += "<Path>#{key}</Path>"
+      end
+      digest = HMAC::SHA1.new(@secret_access_key)
+      digest << date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
+      uri = URI.parse("https://cloudfront.amazonaws.com/2010-08-01/distribution/#{@cloud_dist_id}/invalidation")
+      req = Net::HTTP::Post.new(uri.path)
+      req.initialize_http_header({
+        'x-amz-date' => date,
+        'Content-Type' => 'text/xml',
+        'Authorization' => "AWS %s:%s" % [@access_key_id, Base64.encode64(digest.digest)]
+      })
+      req.body = "<InvalidationBatch>#{paths}<CallerReference>#{@cloud_dist_id}_#{Time.now.utc.to_i}</CallerReference></InvalidationBatch>"
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      res = http.request(req)
+      log res.code == 201 ? 'Invalidation request succeeded' : "Failed #{res.code}"
     end
 
     def log(msg)

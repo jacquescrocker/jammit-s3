@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jammit',    '>= 0.5.4'
   s.add_dependency 'mimemagic',  '>= 0.1.7'
   s.add_dependency 's3', ">= 0.3.7"
+  s.add_dependency 'ruby-hmac'
 
   s.files = Dir['lib/**/*', 'bin/*', 'jammit-s3.gemspec', 'LICENSE', 'README']
 end
