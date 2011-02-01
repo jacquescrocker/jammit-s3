@@ -147,7 +147,7 @@ module Jammit
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       res = http.request(req)
-      log res.code == 201 ? 'Invalidation request succeeded' : "### WARNING ### Invalidation request FAILED (#{res.code})"
+      log res.code == "201" ? 'Invalidation request succeeded' : "### WARNING ### Invalidation request FAILED (#{res.code})"
     end
 
     def log(msg)
