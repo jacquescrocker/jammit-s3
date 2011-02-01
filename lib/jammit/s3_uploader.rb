@@ -130,8 +130,8 @@ module Jammit
     def invalidate_cache(files)
       paths = ""
       files.each do |key|
-        log "adding #{key} to list of invalidation requests"
-        paths += "<Path>#{key}</Path>"
+        log "adding /#{key} to list of invalidation requests"
+        paths += "<Path>/#{key}</Path>"
       end
       digest = HMAC::SHA1.new(@secret_access_key)
       digest << date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
