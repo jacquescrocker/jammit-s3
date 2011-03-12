@@ -29,7 +29,7 @@ module Jammit
       end
 
       # add images
-      globs << "public/images/**/*"
+      globs << "public/images/**/*" unless Jammit.configuration[:s3_upload_images] == false
 
       # add custom configuration if defined
       s3_upload_files = Jammit.configuration[:s3_upload_files]
