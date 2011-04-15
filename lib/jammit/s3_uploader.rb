@@ -20,7 +20,7 @@ module Jammit
 
         @bucket = find_or_create_bucket
         if Jammit.configuration[:use_cloudfront]
-          @changed_files = [] 
+          @changed_files = []
           @cloud_dist_id = options[:cloud_dist_id] || Jammit.configuration[:cloud_dist_id]
         end
       end
@@ -97,7 +97,7 @@ module Jammit
           log "file has not changed: #{remote_path}"
         end     
       end
-      if Jammit.configuration[:use_cloudfront] && @changed_files.present? 
+      if Jammit.configuration[:use_cloudfront] && !@changed_files.empty?
         log "invalidating cloudfront cache for changed files"
         invalidate_cache(@changed_files)
       end
