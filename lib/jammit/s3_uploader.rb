@@ -127,7 +127,7 @@ module Jammit
       end
       digest = HMAC::SHA1.new(@secret_access_key)
       digest << date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
-      uri = URI.parse("https://cloudfront.amazonaws.com/2010-08-01/distribution/#{@cloud_dist_id}/invalidation")
+      uri = URI.parse("https://cloudfront.amazonaws.com/2010-11-01/distribution/#{@cloud_dist_id}/invalidation")
       req = Net::HTTP::Post.new(uri.path)
       req.initialize_http_header({
         'x-amz-date' => date,
