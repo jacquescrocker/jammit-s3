@@ -50,6 +50,11 @@ module Jammit
       globs.each do |glob|
         upload_from_glob(glob)
       end
+
+      if Jammit.configuration[:use_cloudfront] && !@changed_files.empty?
+        log "invalidating cloudfront cache for changed files"
+        invalidate_cache(@changed_files)
+      end
     end
 
     def upload_from_glob(glob)
@@ -96,10 +101,6 @@ module Jammit
         else
           log "file has not changed: #{remote_path}"
         end     
-      end
-      if Jammit.configuration[:use_cloudfront] && !@changed_files.empty?
-        log "invalidating cloudfront cache for changed files"
-        invalidate_cache(@changed_files)
       end
     end
 
