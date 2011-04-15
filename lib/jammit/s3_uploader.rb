@@ -132,7 +132,7 @@ module Jammit
       req.initialize_http_header({
         'x-amz-date' => date,
         'Content-Type' => 'text/xml',
-        'Authorization' => "AWS %s:%s" % [@access_key_id, Base64.encode64(digest.digest)]
+        'Authorization' => "AWS %s:%s" % [@access_key_id, Base64.encode64(digest.digest).gsub("\n", '')]
       })
       req.body = "<InvalidationBatch>#{paths}<CallerReference>#{@cloud_dist_id}_#{Time.now.utc.to_i}</CallerReference></InvalidationBatch>"
       http = Net::HTTP.new(uri.host, uri.port)
