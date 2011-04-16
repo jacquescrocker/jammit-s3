@@ -102,6 +102,10 @@ module Jammit
           log "file has not changed: #{remote_path}"
         end     
       end
+      if Jammit.configuration[:use_cloudfront] && !@changed_files.empty? 
+        log "invalidating cloudfront cache for changed files"
+        invalidate_cache(@changed_files)
+      end
     end
 
     def find_or_create_bucket
@@ -140,7 +144,7 @@ module Jammit
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       res = http.request(req)
-      log res.code.to_i == 201 ? 'Invalidation request succeeded' : "Failed #{res.code}"
+      log res.code == "201" ? 'Invalidation request succeeded' : "Failed #{res.code}"
     end
 
     def log(msg)
