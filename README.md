@@ -27,6 +27,10 @@ Within your `config/assets.yml`, just add a toplevel key called `s3_bucket` that
 
     s3_bucket: my-awesome-jammit-bucket
 
+In addition, you will need to set asset_host in config/environments/{environment}.rb:
+
+    config.action_controller.asset_host = "#{Jammit.configuration[:s3_bucket]}.s3.amazonaws.com"
+
 ## Deployment
 
 To deploy your files to s3, just the jammit-s3 command at your project's root.
