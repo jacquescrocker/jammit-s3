@@ -94,6 +94,25 @@ distribution, and you will see Distribution ID and Domain Name values.
 
 This will use the CloudFront domain name for your assets instead of serving them from the (slow) S3 bucket.
 
+### Known issues with CloudFront invalidation
+
+1. It may reportedly take up to 15 minutes to invalidate all the CloudFront
+caches around the globe (and Amazon charges for more than a certain number
+of invalidations per month).
+
+2. It's non-atomic from the perspective of the end-user: They may get an
+older version of the site with a newer version of the JavaScript and CSS, or
+vice versa.
+
+3. It doesn't play nicely with aggressive HTTP caching. For example, once I
+serve a script or a stylesheet, I would like it to be cached indefinitely
+with no more round trips to see whether it is valid.
+
+Given these constraints, there's still an important need for some kind of
+content-based hashing. Done right, this assures that all files can be cached
+indefinitely, and the user will always get matched HTML/JS/CSS files. (This currently
+is in the works).
+
 ## Bugs / Feature Requests
 
 To suggest a feature or report a bug:
