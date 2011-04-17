@@ -85,10 +85,10 @@ For this to work you need to make sure you have the CloudFront enabled via you A
 To use CloudFront, simply add the following settings to config/assets.yml:
 
     use_cloudfront: on
-    cloud_dist_id: XXXXXXXXXXXXXX
+    cloudfront_dist_id: XXXXXXXXXXXXXX
     cloudfront_domain: xyzxyxyz.cloudfront.net
 
-Please note that cloud_dist_id is not the same as the CloudFront domain
+Please note that cloudfront_dist_id is not the same as the CloudFront domain
 name. Inside CloudFront management console select the
 distribution, and you will see Distribution ID and Domain Name values.
 

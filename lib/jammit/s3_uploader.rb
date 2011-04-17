@@ -21,7 +21,7 @@ module Jammit
         @bucket = find_or_create_bucket
         if Jammit.configuration[:use_cloudfront]
           @changed_files = []
-          @cloud_dist_id = options[:cloud_dist_id] || Jammit.configuration[:cloud_dist_id]
+          @cloudfront_dist_id = options[:cloudfront_dist_id] || Jammit.configuration[:cloudfront_dist_id]
         end
       end
     end
@@ -127,14 +127,14 @@ module Jammit
       end
       digest = HMAC::SHA1.new(@secret_access_key)
       digest << date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
-      uri = URI.parse("https://cloudfront.amazonaws.com/2010-11-01/distribution/#{@cloud_dist_id}/invalidation")
+      uri = URI.parse("https://cloudfront.amazonaws.com/2010-11-01/distribution/#{@cloudfront_dist_id}/invalidation")
       req = Net::HTTP::Post.new(uri.path)
       req.initialize_http_header({
         'x-amz-date' => date,
         'Content-Type' => 'text/xml',
         'Authorization' => "AWS %s:%s" % [@access_key_id, Base64.encode64(digest.digest).gsub("\n", '')]
       })
-      req.body = "<InvalidationBatch>#{paths}<CallerReference>#{@cloud_dist_id}_#{Time.now.utc.to_i}</CallerReference></InvalidationBatch>"
+      req.body = "<InvalidationBatch>#{paths}<CallerReference>#{@cloudfront_dist_id}_#{Time.now.utc.to_i}</CallerReference></InvalidationBatch>"
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
