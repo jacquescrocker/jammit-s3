@@ -27,10 +27,6 @@ Within your `config/assets.yml`, just add a toplevel key called `s3_bucket` that
 
     s3_bucket: my-awesome-jammit-bucket
 
-In addition, you will need to set asset_host in config/environments/{environment}.rb:
-
-    config.action_controller.asset_host = "#{Jammit.configuration[:s3_bucket]}.s3.amazonaws.com"
-
 ## Deployment
 
 To deploy your files to s3, just the jammit-s3 command at your project's root.
@@ -84,23 +80,19 @@ Valid permission options are:
 
 ## Using CloudFront
 
+For this to work you need to make sure you have the CloudFront enabled via you Amazon acccount page. Go here: http://aws.amazon.com/cloudfront/ and click "Sign Up"
+
 To use CloudFront, simply add the following settings to config/assets.yml:
 
     use_cloudfront: on
     cloud_dist_id: XXXXXXXXXXXXXX
-
-And add/modify your environment specific asset_host (i.e config/environments/production.rb):
-
-    config.action_controller.asset_host = "xyzxyxyz.cloudfront.net"
+    cloudfront_domain: xyzxyxyz.cloudfront.net
 
 Please note that cloud_dist_id is not the same as the CloudFront domain
 name. Inside CloudFront management console select the
 distribution, and you will see Distribution ID and Domain Name values.
 
 This will use the CloudFront domain name for your assets instead of serving them from the (slow) S3 bucket.
-
-For this to work you need to make sure you have the CloudFront enabled via you Amazon acccount page. Go here: http://aws.amazon.com/cloudfront/ and click "Sign Up"
-
 
 ## Bugs / Feature Requests
 
