@@ -84,9 +84,14 @@ Valid permission options are:
 
 ## Using CloudFront
 
-To use CloudFront, simply add your CloudFront domain to your environment specific asset host (i.e config/environments/production.rb):
+To use CloudFront, simply add the following settings to config/assets.yml:
 
-    config.action_controller.asset_host = "http://di8snu3y5lwja.cloudfront.net"
+    use_cloudfront: on
+    cloud_dist_id: d3ufgt52562mlv
+
+And add/modify your environment specific asset_host (i.e config/environments/production.rb):
+
+    config.action_controller.asset_host = "http://#{Jammit.configuration[:cloud_dist_id]}.cloudfront.net"
 
 This will use the CloudFront domain name for your assets instead of serving them from the (slow) S3 bucket.
 
