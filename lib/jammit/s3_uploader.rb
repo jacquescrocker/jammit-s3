@@ -90,21 +90,16 @@ module Jammit
           new_object.content = open(local_path)
           new_object.content_encoding = "gzip" if use_gzip
           new_object.acl = @acl if @acl
+          log "pushing file to s3: #{remote_path}"
           new_object.save
-          
+
           if Jammit.configuration[:use_cloudfront] && obj
-            log "updating the file on s3 and cloudfront: #{remote_path}"
-            @changed_files << remote_path 
-          else
-            log "pushing file to s3: #{remote_path}"
+            log "File changed and will be invalidated in cloudfront: #{remote_path}"
+            @changed_files << remote_path
           end
         else
           log "file has not changed: #{remote_path}"
-        end     
-      end
-      if Jammit.configuration[:use_cloudfront] && !@changed_files.empty? 
-        log "invalidating cloudfront cache for changed files"
-        invalidate_cache(@changed_files)
+        end
       end
     end
 
