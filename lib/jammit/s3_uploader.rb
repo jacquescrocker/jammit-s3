@@ -17,6 +17,16 @@ module Jammit
         @bucket_location = options[:bucket_location] || Jammit.configuration[:s3_bucket_location]
         @cache_control = options[:cache_control] || Jammit.configuration[:s3_cache_control]
         @acl = options[:acl] || Jammit.configuration[:s3_permission]
+        @use_cloud_front = options[:use_cloudfront] || Jammit.configuration[:use_cloudfront]
+        if @use_cloud_front
+          @changed_files = [] 
+          @cloudfront_id = options[:cloudfront_id] || Jammit.configuration[:cloudfront_id]
+        end
+
+        log "Using following config:"
+        log " - bucket: #{@bucket_name}"
+        log " - access_key: #{@access_key_id}"        
+        log " - cloudfront_id: #{@cloudfront_id}"                
 
         @bucket = find_or_create_bucket
         if Jammit.configuration[:use_cloudfront]
@@ -122,7 +132,7 @@ module Jammit
     def invalidate_cache(files)
       paths = ""
       files.each do |key|
-        log "adding #{key} to list of invalidation requests"
+        log "adding /#{key} to list of invalidation requests"
         paths += "<Path>/#{key}</Path>"
       end
       digest = HMAC::SHA1.new(@secret_access_key)
